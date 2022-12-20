@@ -9,9 +9,44 @@ const Example = () => {
 
   const [sum, setSum] = useState(0);
 
+  const toggle = (e) => {
+      const newFruits = fruits.map(fruit => {
+        const newFruit = { ... fruit };
+        if(e.target.value === newFruit.label) {
+          newFruit.checked = !fruit.checked;
+        }
+        return newFruit;
+      })
+      setFruits(newFruits);
+      
+      let sumVal = 0;
+      newFruits.forEach( fruit => {
+        if(fruit.checked) {
+          sumVal += fruit.value;
+        }
+        setSum(sumVal);
+      })
+  }
+
   return (
     <div>
-      
+      {
+        fruits.map((fruit) => {
+          return (
+            <div  key={fruit.label}>
+              <label>
+                <input
+                type="checkbox"
+                value={fruit.label}
+                checked={fruit.checked}
+                onChange={toggle}
+                />
+                {fruit.label}:{fruit.value}
+              </label>
+            </div>
+          )
+        })
+      }
       <div>合計：{sum}</div>
     </div>
   );
